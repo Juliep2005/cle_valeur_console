@@ -2,6 +2,7 @@
 #define CLE_VALEUR_H
 
 #include <unordered_map>
+#include <iostream>
 #include <string>
 
 void afficherMenu();

@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <unordered_map> // Ajout nécessaire pour unordered_map
 
 using namespace std;
 
@@ -19,16 +21,31 @@ void afficherMenu() {
 
 void ajouterPaire(unordered_map<string, string>& base) {
     string cle, valeur;
-    cout << "Entrez la clé : ";
-    cin >> cle;
-    cout << "Entrez la valeur : ";
-    cin >> valeur;
 
-    if (base.find(cle) != base.end()) {
-        cout << "Clé déjà existante. La valeur sera mise à jour.\n";
+    cout << "Entrez la clé (User2) : ";
+    cin >> cle;
+
+    // Vérification de la collision
+    if (base.find(cle) != base.end()) { // Correction : base.find()cle -> base.find(cle)
+        cout << "La clé \"" << cle << "\" existe déjà avec la valeur \"" << base[cle] << "\".\n";
+        cout << "Voulez-vous mettre à jour la valeur ? (oui ou non) : ";
+        string choix; // Utilisation de string au lieu de char
+        cin >> choix;
+
+        if (choix == "oui" || choix == "OUI") {
+            cout << "Entrez la nouvelle valeur (admin) : ";
+            cin >> valeur;
+            base[cle] = valeur;
+            cout << "Valeur mise à jour avec succès.\n";
+        } else {
+            cout << "Aucune modification effectuée.\n";
+        }
+    } else {
+        cout << "Entrez la valeur : ";
+        cin >> valeur;
+        base[cle] = valeur;
+        cout << "Paire ajoutée avec succès.\n";
     }
-    base[cle] = valeur;
-    cout << "Paire ajoutée avec succès !\n";
 }
 
 void recupererValeur(const unordered_map<string, string>& base) {
