@@ -4,6 +4,8 @@
 #include <sstream>
 #include <string>
 #include <unordered_map> // Ajout nécessaire pour unordered_map
+#include <limits> // Pour numeric_limits
+
 
 using namespace std;
 
@@ -19,30 +21,50 @@ void afficherMenu() {
     cout << "Choisissez une option : ";
 }
 
+// ajouter des paires
 void ajouterPaire(unordered_map<string, string>& base) {
     string cle, valeur;
 
-    cout << "Entrez la clé (User2) : ";
-    cin >> cle;
+    do{
+        cout << "Entrez la clé (Ex : User2, la clé ne eput être vide.) : \n";
+        getline(cin, cle);
 
+        if (cle.empty()) {
+            cout << "Erreur : La clé ne peut pas être vide.\n";
+        }
+    } while (cle.empty());
+    
     // Vérification de la collision
     if (base.find(cle) != base.end()) { // Correction : base.find()cle -> base.find(cle)
         cout << "La clé \"" << cle << "\" existe déjà avec la valeur \"" << base[cle] << "\".\n";
         cout << "Voulez-vous mettre à jour la valeur ? (oui ou non) : ";
+        
         string choix; // Utilisation de string au lieu de char
-        cin >> choix;
-
+        getline(cin, choix);
+        
         if (choix == "oui" || choix == "OUI") {
-            cout << "Entrez la nouvelle valeur (admin) : ";
-            cin >> valeur;
+            do{
+                cout << "Entrez la nouvelle valeur (admin) : \n";
+                getline(cin, valeur);
+                if (valeur.empty()){
+                    cout << "Erreur : la valeur ne peut être vide. /n ";
+                } 
+            } while (valeur.empty());
+
             base[cle] = valeur;
             cout << "Valeur mise à jour avec succès.\n";
         } else {
             cout << "Aucune modification effectuée.\n";
         }
     } else {
-        cout << "Entrez la valeur : ";
-        cin >> valeur;
+        do{
+            cout << "Entrez la valeur (Ex : admin, ne peut être vide) : \n";
+            getline(cin, valeur);
+            if (valeur.empty()){
+                cout << "Erreur : La valeur ne peut pas être vide.\n";
+            }   
+        } while (valeur.empty());
+
         base[cle] = valeur;
         cout << "Paire ajoutée avec succès.\n";
     }
