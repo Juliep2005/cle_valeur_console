@@ -6,6 +6,7 @@
 #include <string>
 
 void afficherMenu();
+void nettoyerBuffer();
 void ajouterPaire(std::unordered_map<std::string, std::string>& base);
 void recupererValeur(const std::unordered_map<std::string, std::string>& base);
 void supprimerPaire(std::unordered_map<std::string, std::string>& base);

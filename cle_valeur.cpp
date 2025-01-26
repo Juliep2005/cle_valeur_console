@@ -21,16 +21,35 @@ void afficherMenu() {
     cout << "Choisissez une option : ";
 }
 
+void nettoyerBuffer() {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+
 // ajouter des paires
 void ajouterPaire(unordered_map<string, string>& base) {
     string cle, valeur;
 
     cout << "Entrez la clé (Ex : User2, la clé ne peut pas être vide) : ";
     while (true) {
+        nettoyerBuffer();
         getline(cin, cle); // Lecture de l'entrée utilisateur
 
         if (cle.empty()) {
             cout << "Erreur : La clé ne peut pas être vide. Veuillez réessayer : ";
+        } else {
+            break;
+        }
+    }
+
+    cout << "Entrez la valeur (Ex : admin, la valeur ne peutnpas être vide) :";  
+    while (true) {
+        nettoyerBuffer();
+        getline(cin, valeur);
+                    
+        if (valeur.empty()) {
+            cout << "Erreur : La valeur ne peut pas être vide. Veuillez réessayer : ";
         } else {
             break;
         }
@@ -42,42 +61,20 @@ void ajouterPaire(unordered_map<string, string>& base) {
         cout << "Voulez-vous mettre à jour la valeur ? (oui ou non) : ";
         
         string choix;
-        while (true) {
-            getline(cin, choix); // Lecture de la réponse oui/non
-            if (choix == "oui" || choix == "OUI") {
-                cout << "Entrez la nouvelle valeur (Ex : admin, la valeur ne peut pas être vide) : ";
-                while (true) {
-                    getline(cin, valeur);
-                    if (valeur.empty()) {
-                        cout << "Erreur : La valeur ne peut pas être vide. Veuillez réessayer : ";
-                    } else {
-                        break;
-                    }
-                }
-                base[cle] = valeur;
-                cout << "Valeur mise à jour avec succès.\n";
-                break;
-            } else if (choix == "non" || choix == "NON") {
-                cout << "Aucune modification effectuée.\n";
-                break;
-            } else {
-                cout << "Erreur : Veuillez répondre par 'oui' ou 'non' : ";
-            }
-        }
+        nettoyerBuffer();
+        getline(cin, choix); // Lecture de la réponse oui/non
+            
+        if (choix == "oui" || choix == "OUI") {
+            base[cle] = valeur;
+            cout << "Valeur mise à jour avec succès.\n";
+        } else {
+            cout << "Aucune modification effectuée.\n";
+        } 
+            
     } else {
-        cout << "Entrez la valeur (Ex : admin, la valeur ne peut pas être vide) : ";
-        while (true) {
-            getline(cin, valeur);
-            if (valeur.empty()) {
-                cout << "Erreur : La valeur ne peut pas être vide. Veuillez réessayer : ";
-            } else {
-                break;
-            }
-        }
-
         base[cle] = valeur;
-        cout << "Paire ajoutée avec succès.\n";
-    }
+        cout << "Valeur mise à jour avec succès.\n";
+    }         
 }
 
 
