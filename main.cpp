@@ -1,13 +1,17 @@
 #include <iostream>
 #include <unordered_map>
+#include <string>
+#include <limits>
 #include "cle_valeur.h"
+
 
 using namespace std;
 
 int main() {
     unordered_map<string, string> baseDeDonnees;
-    string nomFichier = "base_donnees.txt";
-    int choix;
+    std::string nomFichier = "base_donnees.txt";
+
+   int choix;
 
     do {
         afficherMenu();
@@ -15,7 +19,7 @@ int main() {
 
         switch (choix) {
             case 1:
-                ajouterPaire(baseDeDonnees);
+                ajouterPaire(baseDeDonnees, nomFichier);
                 break;
             case 2:
                 recupererValeur(baseDeDonnees);
@@ -41,4 +45,7 @@ int main() {
     } while (choix != 7);
 
     return 0;
+
+    ajouterPaire(baseDeDonnees, nomFichier);
+    
 }

@@ -28,24 +28,25 @@ void nettoyerBuffer() {
 
 
 // ajouter des paires
-void ajouterPaire(unordered_map<string, string>& base) {
+void ajouterPaire(unordered_map<string, string>& base, const string& nomFichier) {
     string cle, valeur;
 
-    cout << "Entrez la clé (Ex : User2, la clé ne peut pas être vide) : ";
+    nettoyerBuffer();
+    cout << "Entrez la clé (Ex : User2. Attention: la clé ne peut pas être vide) : ";
     while (true) {
-        nettoyerBuffer();
         getline(cin, cle); // Lecture de l'entrée utilisateur
 
         if (cle.empty()) {
             cout << "Erreur : La clé ne peut pas être vide. Veuillez réessayer : ";
+        } else if (base.find(cle) != base.end()) {
+            cout << "Erreur : La clé \"" << cle << "\" existe déjà. Veuillez entrer une clé différente de celle que vous avez entré : ";
         } else {
             break;
         }
     }
 
-    cout << "Entrez la valeur (Ex : admin, la valeur ne peutnpas être vide) :";  
+    cout << "Entrez la valeur (Ex : admin. Attention: la valeur ne peut pas être vide) :" ;  
     while (true) {
-        nettoyerBuffer();
         getline(cin, valeur);
                     
         if (valeur.empty()) {
@@ -73,8 +74,20 @@ void ajouterPaire(unordered_map<string, string>& base) {
             
     } else {
         base[cle] = valeur;
-        cout << "Valeur mise à jour avec succès.\n";
-    }         
+        cout << "Clé et valeur ajoutées avec succès ! \n";
+        cout << "Résumé : \n";
+        cout << "La clé " << cle << " a été ajouté avec succès.\n";
+        cout << "La valeur " << valeur << " a été ajouté avec succès \n";
+    }
+    sauvegarderPaires(base, nomFichier); 
+    ofstream fichier(nomFichier, std::ios::app);
+    if (fichier.is_open()) {
+        fichier << cle << "," << valeur << "\n";
+        fichier.close();
+        cout << "Clé/valeur ajoutée et sauvegardée dans " << nomFichier << ".\n";
+    } else {
+        cerr << "Erreur : impossible d'ouvrir le fichier " << nomFichier << ".\n";
+    }     
 }
 
 
@@ -125,8 +138,6 @@ void sauvegarderPaires(const unordered_map<string, string>& base, const string& 
         fichier << paire.first << "," << paire.second << "\n";
     }
 
-    fichier.close();
-    cout << "Paires sauvegardées avec succès dans " << nomFichier << " !\n";
 }
 
 void chargerPaires(unordered_map<string, string>& base, const string& nomFichier) {
