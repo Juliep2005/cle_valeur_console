@@ -3,9 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <unordered_map> // Ajout nécessaire pour unordered_map
-#include <limits> // Pour numeric_limits
-
+#include <unordered_map>
+#include <limits>
 
 using namespace std;
 
@@ -26,29 +25,26 @@ void nettoyerBuffer() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-
-// ajouter des paires
 void ajouterPaire(unordered_map<string, string>& base, const string& nomFichier) {
     string cle, valeur;
 
     nettoyerBuffer();
-    cout << "Entrez la clé (Ex : User2. Attention: la clé ne peut pas être vide) : ";
+    cout << "Entrez la clé : ";
     while (true) {
-        getline(cin, cle); // Lecture de l'entrée utilisateur
+        getline(cin, cle);
 
         if (cle.empty()) {
             cout << "Erreur : La clé ne peut pas être vide. Veuillez réessayer : ";
         } else if (base.find(cle) != base.end()) {
-            cout << "Erreur : La clé \"" << cle << "\" existe déjà. Veuillez entrer une clé différente de celle que vous avez entré : ";
+            cout << "Erreur : La clé \"" << cle << "\" existe déjà. Veuillez entrer une clé différente : ";
         } else {
             break;
         }
     }
 
-    cout << "Entrez la valeur (Ex : admin. Attention: la valeur ne peut pas être vide) :" ;  
+    cout << "Entrez la valeur : ";
     while (true) {
         getline(cin, valeur);
-                    
         if (valeur.empty()) {
             cout << "Erreur : La valeur ne peut pas être vide. Veuillez réessayer : ";
         } else {
@@ -56,40 +52,38 @@ void ajouterPaire(unordered_map<string, string>& base, const string& nomFichier)
         }
     }
 
-    // Vérification de la collision
-    if (base.find(cle) != base.end()) {
-        cout << "La clé \"" << cle << "\" existe déjà avec la valeur \"" << base[cle] << "\".\n";
-        cout << "Voulez-vous mettre à jour la valeur ? (oui ou non) : ";
-        
-        string choix;
-        nettoyerBuffer();
-        getline(cin, choix); // Lecture de la réponse oui/non
-            
-        if (choix == "oui" || choix == "OUI") {
-            base[cle] = valeur;
-            cout << "Valeur mise à jour avec succès.\n";
-        } else {
-            cout << "Aucune modification effectuée.\n";
-        } 
-            
-    } else {
-        base[cle] = valeur;
-        cout << "Clé et valeur ajoutées avec succès ! \n";
-        cout << "Résumé : \n";
-        cout << "La clé " << cle << " a été ajouté avec succès.\n";
-        cout << "La valeur " << valeur << " a été ajouté avec succès \n";
-    }
-    sauvegarderPaires(base, nomFichier); 
+    // Ajouter la paire clé-valeur
+    base[cle] = valeur;
+    cout << "Clé et valeur ajoutées avec succès !\n";
+
+    // Vérification pour éviter d'écrire des doublons dans le fichier
     ofstream fichier(nomFichier, std::ios::app);
     if (fichier.is_open()) {
-        fichier << cle << "," << valeur << "\n";
+        // Vérifier si la clé existe déjà dans le fichier
+        string ligne;
+        bool existeDeja = false;
+        ifstream fichierExist(nomFichier);
+        while (getline(fichierExist, ligne)) {
+            if (ligne.substr(0, ligne.find(',')) == cle) {
+                existeDeja = true;
+                break;
+            }
+        }
+        fichierExist.close();
+
+        // Écrire dans le fichier seulement si la clé n'existe pas déjà
+        if (!existeDeja) {
+            fichier << cle << "," << valeur << "\n";
+            cout << "Clé/valeur sauvegardée dans " << nomFichier << ".\n";
+        } else {
+            cout << "La clé \"" << cle << "\" existe déjà dans le fichier. Aucune sauvegarde effectuée.\n";
+        }
+
         fichier.close();
-        cout << "Clé/valeur ajoutée et sauvegardée dans " << nomFichier << ".\n";
     } else {
         cerr << "Erreur : impossible d'ouvrir le fichier " << nomFichier << ".\n";
-    }     
+    }
 }
-
 
 void recupererValeur(const unordered_map<string, string>& base) {
     string cle;
@@ -137,7 +131,6 @@ void sauvegarderPaires(const unordered_map<string, string>& base, const string& 
     for (const auto& paire : base) {
         fichier << paire.first << "," << paire.second << "\n";
     }
-
 }
 
 void chargerPaires(unordered_map<string, string>& base, const string& nomFichier) {

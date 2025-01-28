@@ -4,14 +4,13 @@
 #include <limits>
 #include "cle_valeur.h"
 
-
 using namespace std;
 
 int main() {
     unordered_map<string, string> baseDeDonnees;
     std::string nomFichier = "base_donnees.txt";
 
-   int choix;
+    int choix;
 
     do {
         afficherMenu();
@@ -45,7 +44,4 @@ int main() {
     } while (choix != 7);
 
     return 0;
-
-    ajouterPaire(baseDeDonnees, nomFichier);
-    
 }
