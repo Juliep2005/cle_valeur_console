@@ -13,35 +13,40 @@ int main() {
     int choix;
 
     do {
-        afficherMenu();
+        afficher();
         cin >> choix;
 
         switch (choix) {
             case 1:
-                ajouterPaire(baseDeDonnees, nomFichier);
+                ajoutPaire(baseDeDonnees, nomFichier);
                 break;
             case 2:
-                recupererValeur(baseDeDonnees);
+                rpValeur(baseDeDonnees);
                 break;
             case 3:
-                supprimerPaire(baseDeDonnees);
+                supPaire(baseDeDonnees);
                 break;
             case 4:
-                afficherPaires(baseDeDonnees);
+                afchePaires(baseDeDonnees);
                 break;
             case 5:
-                sauvegarderPaires(baseDeDonnees, nomFichier);
+                savePaires(baseDeDonnees, nomFichier);
                 break;
             case 6:
-                chargerPaires(baseDeDonnees, nomFichier);
+                chagePaires(baseDeDonnees, nomFichier);
                 break;
             case 7:
                 cout << "Au revoir !\n";
                 break;
             default:
                 cout << "Choix invalide. Veuillez réessayer.\n";
-        }
-    } while (choix != 7);
 
+                
+        }
+    } 
+    while (choix > 7 && choix < 7 ); {
+
+        
+    }
     return 0;
 }

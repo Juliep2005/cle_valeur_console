@@ -8,10 +8,10 @@
 
 using namespace std;
 
-void afficherMenu() {
+void afficher() {
     cout << "\n=== Menu ===\n";
-    cout << "1. Ajouter une paire (clé, valeur)\n";
-    cout << "2. Récupérer une valeur\n";
+    cout << "1. Ajoute une paire (cle, valeur)\n";
+    cout << "2. Récuperer une valeur\n";
     cout << "3. Supprimer une paire\n";
     cout << "4. Afficher toutes les paires\n";
     cout << "5. Sauvegarder les paires\n";
@@ -20,23 +20,22 @@ void afficherMenu() {
     cout << "Choisissez une option : ";
 }
 
-void nettoyerBuffer() {
+void ecran() {
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-void ajouterPaire(unordered_map<string, string>& base, const string& nomFichier) {
+void ajoutPaire(unordered_map<string, string>& base, const string& nomFichier) {
     string cle, valeur;
 
-    nettoyerBuffer();
-    cout << "Entrez la clé : ";
+    ecran();
+    cout << "Entrez la cle : ";
     while (true) {
         getline(cin, cle);
-
         if (cle.empty()) {
-            cout << "Erreur : La clé ne peut pas être vide. Veuillez réessayer : ";
+            cout << "Erreur : La cle ne peut pas etre vide  Veuillez reessayer : ";
         } else if (base.find(cle) != base.end()) {
-            cout << "Erreur : La clé \"" << cle << "\" existe déjà. Veuillez entrer une clé différente : ";
+            cout << "Erreur : La cle \"" << cle << "\" existe deja. Veuillez entrer une cle differente : ";
         } else {
             break;
         }
@@ -46,85 +45,65 @@ void ajouterPaire(unordered_map<string, string>& base, const string& nomFichier)
     while (true) {
         getline(cin, valeur);
         if (valeur.empty()) {
-            cout << "Erreur : La valeur ne peut pas être vide. Veuillez réessayer : ";
+            cout << "Erreur : La valeur ne peut pas etre vide. Veuillez reessayer : ";
         } else {
             break;
         }
     }
 
-    // Ajouter la paire clé-valeur
     base[cle] = valeur;
-    cout << "Clé et valeur ajoutées avec succès !\n";
+    cout << "Cle et valeur ajoutes avec succes !\n";
 
-    // Vérification pour éviter d'écrire des doublons dans le fichier
-    ofstream fichier(nomFichier, std::ios::app);
+    ofstream fichier(nomFichier, ios::app);
     if (fichier.is_open()) {
-        // Vérifier si la clé existe déjà dans le fichier
-        string ligne;
-        bool existeDeja = false;
-        ifstream fichierExist(nomFichier);
-        while (getline(fichierExist, ligne)) {
-            if (ligne.substr(0, ligne.find(',')) == cle) {
-                existeDeja = true;
-                break;
-            }
-        }
-        fichierExist.close();
-
-        // Écrire dans le fichier seulement si la clé n'existe pas déjà
-        if (!existeDeja) {
-            fichier << cle << "," << valeur << "\n";
-            cout << "Clé/valeur sauvegardée dans " << nomFichier << ".\n";
-        } else {
-            cout << "La clé \"" << cle << "\" existe déjà dans le fichier. Aucune sauvegarde effectuée.\n";
-        }
-
+        fichier << cle << "," << valeur << "\n";
+        cout << "Cle / valeur sauvegarde dans " << nomFichier << "\n";
         fichier.close();
     } else {
-        cerr << "Erreur : impossible d'ouvrir le fichier " << nomFichier << ".\n";
+        cout << "Erreur : impossible d'ouvrir le fichier " << nomFichier << ".\n";
     }
 }
 
-void recupererValeur(const unordered_map<string, string>& base) {
+void rpValeur(const unordered_map<string, string>& base) {
     string cle;
-    cout << "Entrez la clé : ";
+    cout << "Entrez la cle : ";
     cin >> cle;
 
     auto it = base.find(cle);
     if (it != base.end()) {
-        cout << "Valeur associée : " << it->second << "\n";
+        cout << "Valeur associee : " << it->second << "\n";
     } else {
-        cout << "Clé non trouvée.\n";
+        cout << "Cle non trouve.\n";
     }
 }
 
-void supprimerPaire(unordered_map<string, string>& base) {
+void supPaire(unordered_map<string, string>& base) {
     string cle;
-    cout << "Entrez la clé : ";
+    cout << "Entrez la cle : ";
     cin >> cle;
 
     if (base.erase(cle)) {
-        cout << "Paire supprimée avec succès !\n";
+        cout << "Paire supprime avec succes !\n";
     } else {
-        cout << "Clé non trouvée.\n";
+        cout << "Cle non trouve \n";
     }
 }
 
-void afficherPaires(const unordered_map<string, string>& base) {
+void afchePaires(const unordered_map<string, string>& base) {
     if (base.empty()) {
-        cout << "La base de données est vide.\n";
+        cout << "La base de donne est vide.\n";
     } else {
-        cout << "Paires (clé, valeur) :\n";
+        cout << "Paires (cle, valeur) :\n";
         for (const auto& paire : base) {
-            cout << "Clé : " << paire.first << ", Valeur : " << paire.second << "\n";
+            cout << "Cle : " << paire.first << ", Valeur : " << paire.second << "\n";
         }
     }
 }
 
-void sauvegarderPaires(const unordered_map<string, string>& base, const string& nomFichier) {
+void savePaires(const unordered_map<string, string>& base, const string& nomFichier) {
     ofstream fichier(nomFichier);
     if (!fichier) {
-        cout << "Erreur lors de l'ouverture du fichier pour la sauvegarde.\n";
+        cout << "Erreur lors de l'ouverture du fichier pour la sauvegarde \n";
         return;
     }
 
@@ -133,22 +112,22 @@ void sauvegarderPaires(const unordered_map<string, string>& base, const string& 
     }
 }
 
-void chargerPaires(unordered_map<string, string>& base, const string& nomFichier) {
+void chagePaires(unordered_map<string, string>& base, const string& nomFichier) {
     ifstream fichier(nomFichier);
     if (!fichier) {
-        cout << "Erreur lors de l'ouverture du fichier pour le chargement.\n";
+        cout << "Erreur lors de l ouverture du fichier pour le chargement \n";
         return;
     }
 
     base.clear();
     string ligne, cle, valeur;
     while (getline(fichier, ligne)) {
-        stringstream ss(ligne);
-        if (getline(ss, cle, ',') && getline(ss, valeur)) {
+        stringstream ss(ligne);       
+         if (getline(ss, cle, ",") && getline(ss, valeur)) {
             base[cle] = valeur;
         }
     }
 
     fichier.close();
-    cout << "Paires chargées avec succès depuis " << nomFichier << " !\n";
+    cout << "Paires charger avec succe depuis " << nomFichier << " \n";
 }
