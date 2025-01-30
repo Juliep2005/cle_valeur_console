@@ -123,7 +123,7 @@ void chagePaires(unordered_map<string, string>& base, const string& nomFichier) 
     string ligne, cle, valeur;
     while (getline(fichier, ligne)) {
         stringstream ss(ligne);       
-         if (getline(ss, cle, ",") && getline(ss, valeur)) {
+         if (getline(ss, cle, ',') && getline(ss, valeur)) {
             base[cle] = valeur;
         }
     }
