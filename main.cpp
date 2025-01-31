@@ -44,7 +44,7 @@ int main() {
                 
         }
     } 
-    while (choix > 7 && choix < 7 ); {
+    while (choix != 7 ); {
 
         
     }
